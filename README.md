@@ -9,3 +9,85 @@ Easily copy paste N26 records for easier bookkeeping.
 **hint:** don't hesitate on refreshing and starting over if it doesn't work.
 
 **hint2:** it will only work with the records currently loaded in the screen, so before pasting you could load more records 
+
+
+
+```js
+DATE_YEAR = "2022";
+
+function makeCopiable(element) {
+  element.onclick = function () {
+    document.execCommand("copy");
+  };
+
+  element.addEventListener("copy", function (event) {
+    event.preventDefault();
+    if (event.clipboardData) {
+      event.clipboardData.setData("text/plain", element.textContent);
+      element.style.backgroundColor = "#36a18b66";
+      console.log("copied: ", event.clipboardData.getData("text"));
+    }
+  });
+}
+
+function formatDate(str) {
+  let splitedText = str.split(" ");
+  console.log("splitedText", splitedText);
+
+  return `${splitedText[0]} ${splitedText[1]} ${DATE_YEAR}`;
+}
+
+function formatPrice(str) {
+  console.log("str before", str);
+  str = str.replace("−", " ");
+  str = str.replace(".", ",");
+  console.log("str after", str);
+  return str;
+}
+
+function createParagraph(parrentElement, text) {
+  const para = document.createElement("p");
+  para.innerHTML = `${text}`;
+  para.classList.add("customParagraph");
+  //   para.innerHTML = `<p class="customParagraph">${text}</p>`;
+  makeCopiable(para);
+  parrentElement.appendChild(para);
+}
+
+function eachElement(elem) {
+  console.log("elem.innerText", elem.innerText.split("\n"));
+  let splitedText = elem.innerText.split("\n");
+  const divContainer = document.createElement("div");
+
+  createParagraph(divContainer, splitedText[0]);
+  createParagraph(divContainer, formatDate(splitedText[1]));
+  createParagraph(divContainer, formatPrice(splitedText.at(-1)));
+
+  elem.after(divContainer);
+}
+
+var style = document.createElement("style");
+style.type = "text/css";
+style.innerHTML = `
+.customParagraph { 
+    background-color: #36a18b;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 50px;
+    color: white;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.customParagraph:hover { 
+    background-color: #36a18b99;
+}
+`;
+document.getElementsByTagName("head")[0].appendChild(style);
+
+const target = document.getElementsByTagName("li");
+
+Object.keys(target).forEach((e) => {
+  eachElement(target[e]);
+});
+```
