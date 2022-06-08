@@ -13,7 +13,8 @@ Easily copy paste N26 records for easier bookkeeping.
 
 
 ```js
-DATE_YEAR = "2022";
+const DATE_YEAR = "2022";
+let total = "";
 
 function makeCopiable(element) {
   element.onclick = function () {
@@ -23,25 +24,26 @@ function makeCopiable(element) {
   element.addEventListener("copy", function (event) {
     event.preventDefault();
     if (event.clipboardData) {
-      event.clipboardData.setData("text/plain", element.textContent);
+      //   event.clipboardData.setData("text/plain", element.textContent);
+      event.clipboardData.setData("text/plain", total);
       element.style.backgroundColor = "#36a18b66";
-      console.log("copied: ", event.clipboardData.getData("text"));
+      //   console.log("copied: ", event.clipboardData.getData("text"));
     }
   });
 }
 
 function formatDate(str) {
   let splitedText = str.split(" ");
-  console.log("splitedText", splitedText);
+  //   console.log("splitedText", splitedText);
 
   return `${splitedText[0]} ${splitedText[1]} ${DATE_YEAR}`;
 }
 
 function formatPrice(str) {
-  console.log("str before", str);
+  //   console.log("str before", str);
   str = str.replace("−", " ");
   str = str.replace(".", ",");
-  console.log("str after", str);
+  //   console.log("str after", str);
   return str;
 }
 
@@ -55,9 +57,14 @@ function createParagraph(parrentElement, text) {
 }
 
 function eachElement(elem) {
-  console.log("elem.innerText", elem.innerText.split("\n"));
+  //   console.log("elem.innerText", elem.innerText.split("\n"));
   let splitedText = elem.innerText.split("\n");
   const divContainer = document.createElement("div");
+
+  total += splitedText[0] + "\t";
+  total += formatDate(splitedText[1]) + "\t";
+  total += formatPrice(splitedText.at(-1)) + "\t";
+  total += "\n";
 
   createParagraph(divContainer, splitedText[0]);
   createParagraph(divContainer, formatDate(splitedText[1]));
@@ -90,4 +97,5 @@ const target = document.getElementsByTagName("li");
 Object.keys(target).forEach((e) => {
   eachElement(target[e]);
 });
+
 ```
