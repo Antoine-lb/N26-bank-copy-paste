@@ -10,9 +10,10 @@ Easily copy paste N26 records for easier bookkeeping.
 
 **hint2:** it will only work with the records currently loaded in the screen, so before pasting you could load more records 
 
-[https://github.com/Antoine-lb/N26-bank-copy-paste/blob/main/after.jpg]
 
+## Before Script:
 ![image before the script](https://github.com/Antoine-lb/N26-bank-copy-paste/blob/main/before.jpg)
+## After Script:
 ![image after the script](https://github.com/Antoine-lb/N26-bank-copy-paste/blob/main/after.jpg)
 
 ```js
