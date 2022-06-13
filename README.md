@@ -28,8 +28,8 @@ function makeCopiable(element) {
   element.addEventListener("copy", function (event) {
     event.preventDefault();
     if (event.clipboardData) {
-      //   event.clipboardData.setData("text/plain", element.textContent);
-      event.clipboardData.setData("text/plain", total.reverse());
+        event.clipboardData.setData("text/plain", element.textContent);
+      // event.clipboardData.setData("text/plain", total);
       element.style.backgroundColor = "#36a18b66";
       //   console.log("copied: ", event.clipboardData.getData("text"));
     }
